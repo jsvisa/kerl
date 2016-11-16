@@ -21,7 +21,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-ERLANG_DOWNLOAD_URL=http://erlang.b0.upaiyun.com/download
+ERLANG_DOWNLOAD_URL=http://erlangorg.b0.upaiyun.com/download
 
 KERL_BASE_DIR="$HOME/.kerl"
 KERL_CONFIG="$HOME/.kerlrc"
