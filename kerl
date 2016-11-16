@@ -112,6 +112,7 @@ usage()
     echo "Valid commands are:"
     echo "  build    Build specified release or git repository"
     echo "  install  Install the specified release at the given location"
+    echo "  use      Use the specified installation to be activated"
     echo "  deploy   Deploy the specified installation to the given host and location"
     echo "  update   Update the list of available releases from UPYUN"
     echo "  list     List releases, builds and installations"
@@ -543,6 +544,18 @@ ACTIVATE
     echo "kerl_deactivate"
 }
 
+do_use()
+{
+    install=$KERL_INSTALL_DIR/$1
+    if [ -f $install/activate ]; then
+        . $install/activate
+        echo "Erlang installation ($install) has been successfully used"
+    else
+        echo "Couldn't found installation ($install/activate)"
+        exit 1
+    fi
+}
+
 do_deploy()
 {
     if [ -z "$1" ]; then
@@ -735,6 +748,13 @@ case "$1" in
         else
             do_install $2 "$2"
         fi
+        ;;
+    use)
+        if [ $# -lt 2 ]; then
+            echo "usage: $0 $1 <install>"
+            exit 1
+        fi
+        do_use $2
         ;;
     deploy)
         if [ $# -lt 2 ]; then
