@@ -7,7 +7,7 @@ _kerl()
 
     case $prev in
         kerl)
-            COMPREPLY=( $( compgen -W "build install update list delete active status" -- "$cur" ) )
+            COMPREPLY=( $( compgen -W "build install use update list delete active status" -- "$cur" ) )
             ;;
         list)
             COMPREPLY=( $( compgen -W "releases builds installations" -- "$cur" ) )
@@ -47,6 +47,12 @@ _kerl()
             ;;
         delete)
             COMPREPLY=( $( compgen -W "build installation $words" -- "$cur") )
+            ;;
+        use)
+            if [ -f "$HOME/.kerl/otp_installations" ]; then
+                PATHS=`cat "$HOME/.kerl/otp_installations" | cut -d " " -f 1`
+            fi
+            COMPREPLY=( $( compgen -W "$PATHS" -- "$cur") )
             ;;
         update)
             COMPREPLY=( $( compgen -W "releases" -- "$cur") )
