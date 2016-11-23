@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+\curl -sSL https://raw.githubusercontent.com/jsvisa/kerl/master/kerl | bash -s install_kerl
+
+exit 0
