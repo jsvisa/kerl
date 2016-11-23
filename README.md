@@ -3,7 +3,6 @@
 
 现在将 [Erlang/download](http://www.erlang.org/download/) 站点下面的有效数据全部镜像到了
 [UPYUN](http://www.upyun.com) 上，得益于 UPYUN 强大的 CDN 功能，现在分分钟就能安装好一个 Erlang 版本。
-如果您想使用原先的 kerl 工具， 只需要将原先的 kerl 脚本中 `ERLANG_DOWNLOAD_URL` 更改到 `http://erlang.b0.upaiyun.com/download` 即可；或者根据下面的步骤安装。
 
 kerl
 ====
@@ -19,17 +18,11 @@ Downloading
 
 You can download the script directly from github:
 
-    $ curl -O https://raw.githubusercontent.com/upyun/kerl/master/kerl
+    $ curl -sSL https://raw.githubusercontent.com/jsvisa/kerl/master/install | bash -s
 
-Then ensure it is executable
+Optionally download and install kerl's bash_completion file from https://github.com/jsvisa/kerl/raw/master/bash_completion/kerl
 
-    $ chmod a+x kerl
-
-and drop it in your $PATH
-
-Optionally download and install kerl's bash_completion file from https://github.com/upyun/kerl/raw/master/bash_completion/kerl
-
-Optionally download and install kerl's zsh-completion file from https://github.com/upyun/kerl/raw/master/zsh_completion/_kerl
+Optionally download and install kerl's zsh-completion file from https://github.com/jsvisa/kerl/raw/master/zsh_completion/_kerl
 
 
 How it works
