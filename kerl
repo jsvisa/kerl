@@ -104,6 +104,59 @@ case "$KERL_SYSTEM" in
         ;;
 esac
 
+INSTALL_KERL=0
+if [ "$1" = "install_kerl" ] ; then
+  INSTALL_KERL=1
+elif [ "$1" = "install" -a "$2" = "kerl" ] ; then
+  INSTALL_KERL=1
+fi
+
+if [ "$INSTALL_KERL" = 1 ] ; then
+    mkdir -p "${KERL_BASE_DIR}"/{bin,scripts}
+    \curl -sSL -o "$KERL_BASE_DIR/bin/kerl" https://raw.githubusercontent.com/jsvisa/kerl/master/kerl
+    chmod +x "$KERL_BASE_DIR/bin/kerl"
+
+    ## Generic loader
+    ## TODO: only support bash by now
+    cat <<"EOF"> "$KERL_BASE_DIR/scripts/kerl"
+## load correct version for this \$SHELL
+( ( env | grep '^SHELL=' | grep -qic '/bash$' ) && ( set | grep -qc '^BASH=' ; test $? -eq 0 ) ) \
+  && source $HOME/.kerl/scripts/kerl.bash
+EOF
+
+    ## Bash script
+    cat <<"EOF"> "$KERL_BASE_DIR/scripts/kerl.bash"
+KERL_BASE_DIR="$HOME/.kerl"
+KERL_INSTALL_DIR="$KERL_BASE_DIR/installs"
+
+function kerl() {
+    if [ "$1" = "use" ] ; then
+        install=$KERL_INSTALL_DIR/$2
+        if [ -f $install/activate ]; then
+            source $install/activate
+            echo "Erlang installation ($install) has been successfully used"
+        else
+            echo "Couldn't found installation ($install/activate)"
+            return 1
+        fi
+    else
+        $KERL_BASE_DIR/bin/kerl $*
+    fi
+}
+EOF
+
+    echo "    Add the following to your shell's config file (.bashrc/.zshrc/.cshrc):"
+    echo "        test -s \"\$HOME/.kerl/scripts/kerl\" && source \"\$HOME/.kerl/scripts/kerl\""
+    echo "kerl has been installed in $KERL_BASE_DIR ☺ "
+
+    exit 0
+fi
+
+
+######################################
+######################################
+
+
 usage()
 {
     echo "kerl: build and install Erlang/OTP"
